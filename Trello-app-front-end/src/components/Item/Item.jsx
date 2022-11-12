@@ -9,7 +9,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-
+import { List } from '@mui/material';
 import { useState  } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setIdItemTarget } from '../../redux/features/colHover';
@@ -213,7 +213,7 @@ function ModalDetailsItem(props) {
                 }
               }
             }
-
+            setCommentContent('')
             dispatch(setDataBroad(newData))
           }
         })
@@ -221,10 +221,7 @@ function ModalDetailsItem(props) {
     }
   }
 
-  console.log('check');
 useEffect(() =>{
-  console.log('check2');
-
   if(itemTarget){
     dataByStore.columnOrder.forEach(column =>{
       dataByStore.columns[`${column}`].items.forEach((e,index) =>{
@@ -234,7 +231,7 @@ useEffect(() =>{
       })
     })
   }
-},[itemTarget])
+},[itemTarget , handleKeyEnter])
   return (
     <div>
       <Dialog open={isShowModalDetailsItem} onClose={handleClose}
@@ -256,14 +253,26 @@ useEffect(() =>{
               setCommentContent(e.target.value)
             }}
             onKeyDown={handleKeyEnter}
+            value={commentContent}
           />
         </DialogContent>
+        <List  sx={{
+        width: '100%',
+        maxWidth: 360,
+        bgcolor: 'background.paper',
+        position: 'relative',
+        overflow: 'auto',
+        maxHeight: 300,
+        '& ul': { padding: 0 },
+      }}
+      subheader={<li />}>
         {listComment && listComment.length > 0 && listComment.map((e) =>{
           return <CommentItem data={e}/>
         })}
+        </List>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleClose}>Subscribe</Button>
+          <Button onClick={handleClose}>Thoát</Button>
+          <Button onClick={handleClose}>Xong</Button>
         </DialogActions>
       </Dialog>
     </div>
